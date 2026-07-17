@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-dev libffi-dev shared-mime-info
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint with flake8
+        run: |
+          flake8 reportgen/ tests/ cli.py --count --statistics --show-source
+
+      - name: Test with pytest
+        run: |
+          pytest --cov=reportgen --cov-report=term-missing
+
+      - name: Generate sample report
+        run: |
+          python cli.py generate --template monthly --data examples/sample_data.csv --format html --output /tmp/report_monthly.html
+          python cli.py generate --template weekly --data examples/sample_data.csv --format markdown --output /tmp/report_weekly.md
+          python cli.py list-templates
+
+      - name: Upload sample report
+        uses: actions/upload-artifact@v4
+        with:
+          name: sample-reports
+          path: /tmp/report_*

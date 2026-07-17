@@ -1,0 +1,32 @@
+{
+  "tasks": [
+    {
+      "template": "monthly",
+      "data": "examples/sample_data.csv",
+      "output_dir": "./output",
+      "format": "html",
+      "schedule": "0 9 * * 1",
+      "title": "月度经营报告",
+      "chart_x": "月份",
+      "chart_y": "收入"
+    },
+    {
+      "template": "weekly",
+      "data": "examples/sample_data.csv",
+      "output_dir": "./output",
+      "format": "markdown",
+      "schedule": "0 10 * * 1",
+      "title": "每周数据简报"
+    },
+    {
+      "template": "summary",
+      "data": "examples/sample_data.csv",
+      "output_dir": "./output",
+      "format": "html",
+      "schedule": "0 8 1 * *",
+      "title": "月度摘要报告",
+      "chart_x": "月份",
+      "chart_y": "利润"
+    }
+  ]
+}

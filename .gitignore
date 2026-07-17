@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.Python
+venv/
+.env
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Reports output
+output/
+*.html
+*.pdf
+*.xlsx
+*.md
+!example.md
+
+# Test artifacts
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Logs
+*.log
